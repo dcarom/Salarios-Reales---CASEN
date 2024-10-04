@@ -1,0 +1,18 @@
+#para crear quintiles
+
+datos_jovenes_casen <- datos_casen[datos_casen$edad_gama=="25-29" & datos_casen$salario>0,]
+
+datos_jovenes_casen$Fecha <- paste("Dec",datos_jovenes_casen$año)
+
+quintiles_jovenes <- datos_jovenes_casen %>%
+  group_by(Fecha) %>%
+  summarise(quintil1 = weighted.quantile(salario,expr,.2,FALSE),
+            quintil2 = weighted.quantile(salario,expr,.4,FALSE),
+            quintil3 = weighted.quantile(salario,expr,.6,FALSE),
+            quintil4 = weighted.quantile(salario,expr,.8,FALSE))
+datos_jovenes_casen <- merge(datos_jovenes_casen, quintiles_jovenes, by="Fecha", all.x=TRUE)
+
+datos_jovenes_casen <- datos_jovenes_casen[,-c(2,3,5,6,9,10)]
+datos_jovenes_casen <- datos_jovenes_casen %>%
+  mutate(quintil = 1+1*(salario>=quintil1)+1*(salario>=quintil2)+
+           1*(salario>=quintil3)+1*(salario>=quintil4))
