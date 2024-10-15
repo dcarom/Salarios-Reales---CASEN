@@ -1,0 +1,331 @@
+
+
+###### Unir bases de datos
+
+
+
+casen_1990= CASEN1990[,c("anio", "edad", "sexo",  "expr", "jh", "yopraj", "rama")]
+
+casen_1990$rama=ifelse(casen_1990$rama==0,1, ifelse(casen_1990$rama==1,2,ifelse(casen_1990$rama==2, 3 ,ifelse(casen_1990$rama==3,5,ifelse(casen_1990$rama==5,8,casen_1990$rama)))))
+
+casen_1990$jh=casen_1990$jh*4.3
+
+
+
+casen_1992= CASEN1992[,c("anio", "edad", "sexo",  "expr", "o14", "yopraj", "rama")]
+
+names(casen_1992)[names(casen_1992) == "o14"] <- "jh"
+
+casen_1992$jh=casen_1992$jh*4.3
+
+
+
+casen_1994= CASEN1994[,c("anio", "edad", "sexo",  "expr", "o14", "yopraj", "rama")]
+
+names(casen_1994)[names(casen_1994) == "o14"] <- "jh"
+
+casen_1994$jh=casen_1994$jh*4.3
+
+
+
+
+casen_1996= CASEN1996[,c("anio", "edad", "sexo",  "expr", "o19", "yopraj", "rama")]
+
+names(casen_1996)[names(casen_1996) == "o19"] <- "jh"
+
+
+
+
+
+casen_1998= CASEN1998[,c("anio", "edad", "sexo",  "expr", "o17", "yopraj", "rama")]
+
+names(casen_1998)[names(casen_1998) == "o17"] <- "jh"
+
+
+
+
+
+casen_2000= CASEN2000[,c("anio", "edad", "sexo",  "expr", "o19h", "yopraj", "rama")]
+
+names(casen_2000)[names(casen_2000) == "o19h"] <- "jh"
+
+
+
+
+
+casen_2003= CASEN2003[,c("anio", "EDAD", "SEXO",  "EXPR", "O19_HRS", "YOPRAJ", "RAMA")]
+
+
+
+names(casen_2003)[names(casen_2003) == "EXPR"] <- "expr"
+names(casen_2003)[names(casen_2003) == "EDAD"] <- "edad"
+names(casen_2003)[names(casen_2003) == "SEXO"] <- "sexo"
+names(casen_2003)[names(casen_2003) == "O19_HRS"] <- "jh"
+names(casen_2003)[names(casen_2003) == "YOPRAJ"] <- "yopraj"
+names(casen_2003)[names(casen_2003) == "RAMA"] <- "rama"
+
+
+
+
+casen_2006= CASEN2006[,c("anio", "EDAD", "SEXO",  "EXPR", "O15", "YOPRAJ", "RAMA")]
+
+
+names(casen_2006)[names(casen_2006) == "EXPR"] <- "expr"
+names(casen_2006)[names(casen_2006) == "EDAD"] <- "edad"
+names(casen_2006)[names(casen_2006) == "SEXO"] <- "sexo"
+names(casen_2006)[names(casen_2006) == "O15"] <- "jh"
+names(casen_2006)[names(casen_2006) == "YOPRAJ"] <- "yopraj"
+names(casen_2006)[names(casen_2006) == "RAMA"] <- "rama"
+
+casen_2006$jh= casen_2006$jh*4.3
+
+
+
+
+
+
+casen_2009= CASEN2009[,c("anio", "EDAD", "SEXO",  "EXPR", "O16", "YOPRAJ", "RAMA")]
+
+names(casen_2009)[names(casen_2009) == "EXPR"] <- "expr"
+names(casen_2009)[names(casen_2009) == "EDAD"] <- "edad"
+names(casen_2009)[names(casen_2009) == "SEXO"] <- "sexo"
+names(casen_2009)[names(casen_2009) == "O16"] <- "jh"
+names(casen_2009)[names(casen_2009) == "YOPRAJ"] <- "yopraj"
+names(casen_2009)[names(casen_2009) == "RAMA"] <- "rama"
+
+casen_2009$jh= casen_2009$jh*4.3
+
+
+
+
+
+casen_2011= CASEN2011[,c("anio", "edad", "sexo",  "expr_full","o10", "yopraj", "rama1")]
+
+names(casen_2011)[names(casen_2011) == "expr_full"] <- "expr"
+names(casen_2011)[names(casen_2011) == "o10"] <- "jh"
+names(casen_2011)[names(casen_2011) == "rama1"] <- "rama"
+
+casen_2011$jh=casen_2011$jh*4.3
+
+casen_2011$rama=ifelse(casen_2011$rama==6,5, ifelse(casen_2011$rama==4,3,ifelse(casen_2011$rama==3, 2 ,ifelse(casen_2011$rama==10,8,casen_2011$rama))))
+
+
+
+
+
+
+casen_2013= CASEN2013[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1")]
+
+names(casen_2013)[names(casen_2013) == "o10"] <- "jh"
+names(casen_2013)[names(casen_2013)== "yoprcor"] = "yopraj"
+names(casen_2013)[names(casen_2013)== "rama1"] = "rama"
+
+casen_2013$jh=casen_2013$jh*4.3
+
+casen_2013$rama=ifelse(casen_2013$rama==6,5, ifelse(casen_2013$rama==4,3,ifelse(casen_2013$rama==3, 2 ,ifelse(casen_2013$rama==10,8,casen_2013$rama))))
+
+
+
+
+
+
+casen_2015= CASEN2015[,c("anio", "edad", "sexo",  "expr","o10", "yoprCor","rama1")]
+
+names(casen_2015)[names(casen_2015) == "o10"] <- "jh"
+names(casen_2015)[names(casen_2015)== "yoprCor"] = "yopraj"
+names(casen_2015)[names(casen_2015)== "rama1"] = "rama"
+
+casen_2015$jh=casen_2015$jh*4.3
+
+casen_2015$rama=ifelse(casen_2015$rama==6,5, ifelse(casen_2015$rama==4,3,ifelse(casen_2015$rama==3, 2 ,ifelse(casen_2015$rama==10,8,casen_2015$rama))))
+
+
+
+
+casen_2017= CASEN2017[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1")]
+
+names(casen_2017)[names(casen_2017) == "o10"] <- "jh"
+names(casen_2017)[names(casen_2017)== "yoprcor"] = "yopraj"
+names(casen_2017)[names(casen_2017)== "rama1"] = "rama"
+
+casen_2017$jh=casen_2017$jh*4.3
+
+
+casen_2017$rama=ifelse(casen_2017$rama==6,5, ifelse(casen_2017$rama==4,3,ifelse(casen_2017$rama==3, 2 ,ifelse(casen_2017$rama==10,8,casen_2017$rama))))
+
+
+
+
+
+casen_2022= CASEN2022[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1")]
+
+names(casen_2022)[names(casen_2022) == "o10"] <- "jh"
+names(casen_2022)[names(casen_2022)== "yoprcor"] = "yopraj"
+names(casen_2022)[names(casen_2022)== "rama1"] = "rama"
+
+casen_2022$jh=casen_2022$jh*4.3
+
+
+casen_2022$rama=ifelse(casen_2022$rama==6,5, ifelse(casen_2022$rama==4,3,ifelse(casen_2022$rama==3, 2 ,ifelse(casen_2022$rama==10,8,casen_2022$rama))))
+
+
+
+
+
+datos_casen <- rbind(casen_1990, casen_1992, casen_1994, casen_1996, casen_1998, casen_2000, casen_2003, casen_2006, casen_2009, casen_2011, casen_2013, casen_2015, casen_2017, casen_2022)
+
+
+datos_casen$grupo = ifelse(datos_casen$edad >= 25 & datos_casen$edad <= 29, "Jóvenes",
+                           ifelse(datos_casen$edad >= 35 & datos_casen$edad <= 50, "No Jóvenes", NA))
+
+library(dplyr)
+
+# Filtrar el dataframe para valores de ponderacion > 0
+datos_casen <- datos_casen %>%
+  filter(jh < 744 & jh > 0 & !is.na(jh) & ponderacion>0)
+
+
+datos_casen$sporhora= datos_casen$yopraj/datos_casen$jh
+
+
+ipc_factores <- c(5.065, 3.787, 3.097, 2.685, 2.419, 2.262, 2.121, 1.948, 1.710, 1.588, 1.518, 1.386, 1.319, 1)
+
+
+anio <- c(1990,1992,1994,1996,1998,2000,2003,2006,2009,2011,2013,2015,2017, 2022)
+
+ipc= data.frame(cbind(ipc_factores, anio))
+
+
+
+datos_casen=merge(datos_casen, ipc, by="anio")
+
+
+
+datos_casen <- datos_casen %>%
+  filter(sporhora>0)
+
+
+
+datos_casen$realporhora= datos_casen$sporhora*datos_casen$ipc_factores
+
+datos_casen$realexp= datos_casen$realporhora*datos_casen$expr
+
+
+
+datos_casenj= datos_casen%>%
+  filter(datos_casen$edad>=25 & datos_casen$edad<=29)
+
+promedios_sph_j= datos_casenj%>%
+  group_by(anio)%>%
+  summarise(promedio_j= sum(realexp)/sum(expr))
+
+
+
+
+datos_casen3550= datos_casen%>%
+  filter(datos_casen$edad>=35 & datos_casen$edad<=50)
+
+promedios_sph_3550= datos_casen3550%>%
+  group_by(anio)%>%
+  summarise(promedio_noj= sum(realexp)/sum(expr))
+
+
+
+promediosgraf= merge(promedios_sph_j,promedios_sph_3550, by="anio" )
+
+
+library(ggplot2)
+ggplot(promediosgraf, aes(x=anio)) +
+  geom_line(aes(y=promedio_j, color= "Jóvenes"))+
+  geom_line(aes(y=promedio_noj, color= "No Jóvenes"))+
+  geom_point(aes(y=promedio_j, color ="Jóvenes"), size=2)+
+  geom_point(aes(y=promedio_noj, color= "No Jóvenes"), size=2)+
+  labs(title= "Evolución del Promedio del Salario Real por Hora",
+       x= "Año",
+       y= "Promedio",
+       color= "Grupo")+
+  theme_minimal()
+
+
+
+
+promediosgraf$logjov= log(promediosgraf$promedio_j)
+promediosgraf$lognojov= log(promediosgraf$promedio_noj)
+promediosgraf$resta= promediosgraf$lognojov-promediosgraf$logjov
+
+
+
+
+ggplot(promediosgraf, aes(x= anio, y= resta))+
+         geom_line()+
+         geom_point(size=2)+
+         labs(tilte= "Diferencia logarítmica del Promedio del Salario Real por Hora (Age Gap)", 
+              subtitle= "No Jóvenes - Jóvenes. E[w|w>0]",
+              x= "Año", 
+              y="Age Gap")+
+         theme_minimal()
+
+
+
+
+
+
+
+```{r}
+
+library(dplyr)
+datos_casen_rama= datos_casen%>%
+  filter(datos_casen$rama==1 | datos_casen$rama==2 | datos_casen$rama==3 | datos_casen$rama==5 | datos_casen$rama==8)
+
+datos_casen_rama = datos_casen_rama[!is.na(datos_casen_rama$grupo), ]
+
+
+
+datos_casen_rama$rama= as.factor(datos_casen_rama$rama)
+
+
+
+
+
+
+promedio_rama = datos_casen_rama %>%
+  group_by(anio, grupo, rama) %>%
+  summarise(promedio = sum(realexp, na.rm = TRUE) / sum(expr, na.rm = TRUE), .groups = "drop")
+
+  
+promedio_rama= promedio_rama %>%
+  group_by(rama, grupo)%>%
+  arrange(anio) %>%
+  mutate(variacion = (promedio/first(promedio)-1)*100)%>%
+  ungroup()
+
+  
+promedio_rama$grupo=as.factor(promedio_rama$grupo)
+
+
+ggplot(promedio_rama[promedio_rama$rama==3, ], aes(x = anio, y = promedio, color = grupo, group = grupo)) +
+  geom_line() +
+  geom_point(size = 2) +
+  labs(title = "Promedio Salario Real por Hora",
+       x = "Año",
+       y = "Salario por Hora") +
+  theme_minimal()
+
+
+ggplot(promedio_rama[promedio_rama$rama==5, ], aes(x = anio, y = promedio, color = grupo, group = grupo)) +
+  geom_line() +
+  geom_point(size = 2) +
+  labs(title = "Promedio Salario Real por Hora",
+       x = "Año",
+       y = "Salario por Hora") +
+  theme_minimal()
+
+ggplot(promedio_rama, aes(x = anio, y = promedio, color = grupo, group = grupo)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_grid(cols = vars(rama)) +
+  labs(title = "Promedio Salario Real por Hora",
+       x = "Año",
+       y = "Salario por Hora") +
+  theme_minimal()
+```
