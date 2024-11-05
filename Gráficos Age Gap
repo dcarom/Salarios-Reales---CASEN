@@ -1,0 +1,791 @@
+
+```{r}
+
+
+
+
+library(haven)
+
+
+
+
+
+CASEN1990= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1990/Casen1990.sav")
+CASEN1990$anio =1990
+
+
+CASEN1992= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1992/Casen1992.sav")
+CASEN1992$anio =1992
+
+
+CASEN1994= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1994/Casen1994.sav")
+CASEN1994$anio =1994
+
+
+CASEN1996= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1996/casen1996.dta")
+CASEN1996$anio =1996
+
+
+CASEN1998= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1998/Casen1998.sav")
+CASEN1998$anio =1998
+
+
+
+CASEN2000= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2000/casen2000_Stata.dta")
+CASEN2000$anio=2000
+
+
+
+CASEN2003= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2003 (1)/Casen2003.sav")
+
+#CASEN2003= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2003 (1)/ingresos_ajustados_casen_2003_03122013.dta")
+
+#CASEN2003=cbind(CASEN2003_1, casen2003_2)
+
+CASEN2003$anio=2003
+
+
+CASEN2006= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2006 (1)/Casen2006.sav")
+CASEN2006$anio=2006
+
+
+CASEN2009= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2009spss/Casen2009Spss.sav")
+CASEN2009$anio=2009
+
+
+
+############ ? ##############
+CASEN2011= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen2011_octubre2011_enero2012_principal_08032013spss/casen2011_octubre2011_enero2012_principal_08032013spss.sav")
+CASEN2011$anio=2011
+
+
+CASEN2013= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/CASEN_2013_Ingresos_originales_spss/casen_2013_mn_b_principal.dta")
+CASEN2013$anio=2013
+
+
+CASEN2015= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen_2015_spss/Casen 2015.sav")
+CASEN2015$anio=2015
+
+
+
+CASEN2017= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen_2017_spss/Casen 2017.sav")
+CASEN2017$anio=2017
+
+
+
+CASEN2022= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Base de datos Casen 2022 SPSS_18 marzo 2024.sav/Base de datos Casen 2022 SPSS_18 marzo 2024.sav")
+CASEN2022$anio =2022
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+```{r}
+
+###### Unir bases de datos
+
+
+
+casen_1990= CASEN1990[,c("anio", "edad", "sexo",  "expr", "jh", "yopraj", "rama", "educ")]
+
+
+casen_1990$jh=casen_1990$jh*4.3
+
+casen_1990$educ= ifelse(casen_1990$educ==9,1,0)
+
+casen_1990$rama_nombre <- ifelse(casen_1990$rama == 0, "Agricultura, Caza, Silvicultura y Pesca",
+                                 ifelse(casen_1990$rama == 1, "Explotación Minas y Canteras",
+                                        ifelse(casen_1990$rama == 2, "Industrias Manufactureras",
+                                               ifelse(casen_1990$rama == 3, "Construcción",
+                                                      ifelse(casen_1990$rama == 4, "Comercio",
+                                                             ifelse(casen_1990$rama == 5, "Servicios de Gobierno y Financieros",
+                                                                    ifelse(casen_1990$rama == 6, "Servicios Personales y de los Hogares",
+                                                                           ifelse(casen_1990$rama == 7, "Servicios Comunales y Sociales",
+                                                                                  ifelse(casen_1990$rama == 8, "Transporte, Almacenamiento, Comunicaciones y Servicios de utilidad pública",
+                                                                                         ifelse(casen_1990$rama == 9, "Actividades no bien especificadas", NA))))))))))
+
+
+
+
+
+
+
+
+casen_1992= CASEN1992[,c("anio", "edad", "sexo",  "expr", "o14", "yopraj", "rama", "educ")]
+
+names(casen_1992)[names(casen_1992) == "o14"] <- "jh"
+
+casen_1992$jh=casen_1992$jh*4.3
+
+casen_1992$rama_nombre <- ifelse(casen_1992$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_1992$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_1992$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_1992$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_1992$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_1992$rama == 5, "Construcción",
+                                                                    ifelse(casen_1992$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_1992$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_1992$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_1992$rama == 9, "Servicios Comunales Sociales",
+                                                                                                ifelse(casen_1992$rama == 999, "Sin respuesta", NA)))))))))))
+
+
+
+
+
+
+
+
+casen_1994= CASEN1994[,c("anio", "edad", "sexo",  "expr", "o14", "yopraj", "rama", "e9")]
+
+names(casen_1994)[names(casen_1994) == "o14"] <- "jh"
+names(casen_1994)[names(casen_1994)=="e9"] = "educ"
+
+casen_1994$jh=casen_1994$jh*4.3
+
+
+casen_1994$rama_nombre <- ifelse(casen_1994$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_1994$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_1994$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_1994$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_1994$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_1994$rama == 5, "Construcción",
+                                                                    ifelse(casen_1994$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_1994$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_1994$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_1994$rama == 9, "Servicios Comunales Sociales",
+                                                                       NA))))))))))
+
+
+
+
+
+
+
+casen_1996= CASEN1996[,c("anio", "edad", "sexo",  "expr", "o19", "yopraj", "rama", "e6")]
+
+names(casen_1996)[names(casen_1996) == "o19"] <- "jh"
+names(casen_1996)[names(casen_1996)=="e6"] = "educ"
+
+
+casen_1996$rama_nombre <- ifelse(casen_1996$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_1996$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_1996$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_1996$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_1996$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_1996$rama == 5, "Construcción",
+                                                                    ifelse(casen_1996$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_1996$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_1996$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_1996$rama == 9, "Servicios Comunales Sociales",
+                                                                       NA))))))))))
+
+
+
+
+
+
+
+
+
+casen_1998= CASEN1998[,c("anio", "edad", "sexo",  "expr", "o17", "yopraj", "rama", "educ")]
+
+names(casen_1998)[names(casen_1998) == "o17"] <- "jh"
+
+
+casen_1998$rama_nombre <- ifelse(casen_1998$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_1998$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_1998$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_1998$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_1998$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_1998$rama == 5, "Construcción",
+                                                                    ifelse(casen_1998$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_1998$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_1998$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_1998$rama == 9, "Servicios Comunales Sociales",
+                                                                       NA))))))))))
+
+
+
+
+
+
+
+
+
+casen_2000= CASEN2000[,c("anio", "edad", "sexo",  "expr", "o19h", "yopraj", "rama", "educ")]
+
+names(casen_2000)[names(casen_2000) == "o19h"] <- "jh"
+
+casen_2000$educ=ifelse(casen_2000$educ== 11, 1,0)
+
+
+casen_2000$rama_nombre <- ifelse(casen_2000$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_2000$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_2000$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_2000$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_2000$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_2000$rama == 5, "Construcción",
+                                                                    ifelse(casen_2000$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_2000$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_2000$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_2000$rama == 9, "Servicios Comunales Sociales",
+                                                                       NA))))))))))
+
+
+
+
+
+
+
+
+
+casen_2003= CASEN2003[,c("anio", "EDAD", "SEXO",  "EXPR", "O19_HRS", "YOPRAJ", "RAMA", "EDUC")]
+
+
+
+names(casen_2003)[names(casen_2003) == "EXPR"] <- "expr"
+names(casen_2003)[names(casen_2003) == "EDAD"] <- "edad"
+names(casen_2003)[names(casen_2003) == "SEXO"] <- "sexo"
+names(casen_2003)[names(casen_2003) == "O19_HRS"] <- "jh"
+names(casen_2003)[names(casen_2003) == "YOPRAJ"] <- "yopraj"
+names(casen_2003)[names(casen_2003) == "RAMA"] <- "rama"
+names(casen_2003)[names(casen_2003) == "EDUC"] <- "educ"
+
+casen_2003$rama_nombre <- ifelse(casen_2003$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_2003$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_2003$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_2003$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_2003$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_2003$rama == 5, "Construcción",
+                                                                    ifelse(casen_2003$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_2003$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_2003$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_2003$rama == 9, "Servicios Comunales Sociales",
+                                                                                                ifelse(casen_2003$rama == 9999, "Sin respuesta",
+                                                                       NA)))))))))))
+
+
+
+
+
+
+
+
+
+
+
+
+casen_2006= CASEN2006[,c("anio", "EDAD", "SEXO",  "EXPR", "O15", "YOPRAJ", "RAMA", "EDUC")]
+
+
+names(casen_2006)[names(casen_2006) == "EXPR"] <- "expr"
+names(casen_2006)[names(casen_2006) == "EDAD"] <- "edad"
+names(casen_2006)[names(casen_2006) == "SEXO"] <- "sexo"
+names(casen_2006)[names(casen_2006) == "O15"] <- "jh"
+names(casen_2006)[names(casen_2006) == "YOPRAJ"] <- "yopraj"
+names(casen_2006)[names(casen_2006) == "RAMA"] <- "rama"
+names(casen_2006)[names(casen_2006) == "EDUC"] <- "educ"
+
+casen_2006$jh= casen_2006$jh*4.3
+
+casen_2006$rama_nombre <- ifelse(casen_2006$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_2006$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_2006$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_2006$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_2006$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_2006$rama == 5, "Construcción",
+                                                                    ifelse(casen_2006$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_2006$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_2006$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_2006$rama == 9, "Servicios Comunales Sociales",
+                                                                                                ifelse(casen_2006$rama == 99, "Sin respuesta",
+                                                                       NA)))))))))))
+
+
+
+
+
+
+
+
+
+
+
+casen_2009= CASEN2009[,c("anio", "EDAD", "SEXO",  "EXPR", "O16", "YOPRAJ", "RAMA", "EDUC")]
+
+names(casen_2009)[names(casen_2009) == "EXPR"] <- "expr"
+names(casen_2009)[names(casen_2009) == "EDAD"] <- "edad"
+names(casen_2009)[names(casen_2009) == "SEXO"] <- "sexo"
+names(casen_2009)[names(casen_2009) == "O16"] <- "jh"
+names(casen_2009)[names(casen_2009) == "YOPRAJ"] <- "yopraj"
+names(casen_2009)[names(casen_2009) == "RAMA"] <- "rama"
+names(casen_2009)[names(casen_2009) == "EDUC"] <- "educ"
+
+casen_2009$jh= casen_2009$jh*4.3
+
+casen_2009$rama_nombre <- ifelse(casen_2009$rama == 0, "Actividades no bien especificadas",
+                                 ifelse(casen_2009$rama == 1, "Agricultura, Caza y Silvicultura",
+                                        ifelse(casen_2009$rama == 2, "Explotación Minas y Canteras",
+                                               ifelse(casen_2009$rama == 3, "Industrias Manufactureras",
+                                                      ifelse(casen_2009$rama == 4, "Electricidad, Gas y Agua",
+                                                             ifelse(casen_2009$rama == 5, "Construcción",
+                                                                    ifelse(casen_2009$rama == 6, "Comercio Mayor/Menor Restaurantes y Hoteles",
+                                                                           ifelse(casen_2009$rama == 7, "Transporte y Comunicaciones",
+                                                                                  ifelse(casen_2009$rama == 8, "Establecimientos Financieros y Seguros",
+                                                                                         ifelse(casen_2009$rama == 9, "Servicios Comunales Sociales",
+                                                                  
+NA))))))))))
+
+
+
+
+
+
+casen_2011= CASEN2011[,c("anio", "edad", "sexo",  "expr_full","o10", "yopraj", "rama1", "educ")]
+
+names(casen_2011)[names(casen_2011) == "expr_full"] <- "expr"
+names(casen_2011)[names(casen_2011) == "o10"] <- "jh"
+names(casen_2011)[names(casen_2011) == "rama1"] <- "rama"
+
+casen_2011$jh=casen_2011$jh*4.3
+
+casen_2011$educ= ifelse(casen_2011$educ==8,1,0)
+
+
+casen_2011$rama_nombre <- ifelse(casen_2011$rama == 1, "Agricultura, ganadería, caza y silvicultura",
+                            ifelse(casen_2011$rama == 2, "Pesca",
+                            ifelse(casen_2011$rama == 3, "Explotación de minas y canteras",
+                            ifelse(casen_2011$rama == 4, "Industrias manufactureras",
+                            ifelse(casen_2011$rama == 5, "Suministro de electricidad, gas y agua",
+                            ifelse(casen_2011$rama == 6, "Construcción",
+                            ifelse(casen_2011$rama == 7, "Comercio al por mayor y al por menor",
+                            ifelse(casen_2011$rama == 8, "Hoteles y restaurantes",
+                            ifelse(casen_2011$rama == 9, "Transporte, almacenamiento y comunicaciones",
+                            ifelse(casen_2011$rama == 10, "Intermediación financiera",
+                            ifelse(casen_2011$rama == 11, "Actividades inmobiliarias, empresariales y de alquiler",
+                            ifelse(casen_2011$rama == 12, "Administración pública y defensa",
+                            ifelse(casen_2011$rama == 13, "Enseñanza",
+                            ifelse(casen_2011$rama == 14, "Servicios sociales y de salud",
+                            ifelse(casen_2011$rama == 15, "Otras actividades de servicios comunitarios, sociales y personales",
+                            ifelse(casen_2011$rama == 16, "Hogares privados con servicio doméstico",
+                            ifelse(casen_2011$rama == 17, "Organizaciones y órganos extraterritoriales",
+                            ifelse(casen_2011$rama == 18, "No bien especificado", NA))))))))))))))))))
+
+
+
+casen_2013= CASEN2013[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1", "educ")]
+
+names(casen_2013)[names(casen_2013) == "o10"] <- "jh"
+names(casen_2013)[names(casen_2013)== "yoprcor"] = "yopraj"
+names(casen_2013)[names(casen_2013)== "rama1"] = "rama"
+
+casen_2013$jh=casen_2013$jh*4.3
+
+
+
+
+
+casen_2013$rama_nombre <- ifelse(casen_2013$rama == 1, "Agricultura, ganadería, caza y silvicultura",
+                            ifelse(casen_2013$rama == 2, "Pesca",
+                            ifelse(casen_2013$rama == 3, "Explotación de minas y canteras",
+                            ifelse(casen_2013$rama == 4, "Industrias manufactureras",
+                            ifelse(casen_2013$rama == 5, "Suministro de electricidad, gas y agua",
+                            ifelse(casen_2013$rama == 6, "Construcción",
+                            ifelse(casen_2013$rama == 7, "Comercio al por mayor y al por menor",
+                            ifelse(casen_2013$rama == 8, "Hoteles y restaurantes",
+                            ifelse(casen_2013$rama == 9, "Transporte, almacenamiento y comunicaciones",
+                            ifelse(casen_2013$rama == 10, "Intermediación financiera",
+                            ifelse(casen_2013$rama == 11, "Actividades inmobiliarias, empresariales y de alquiler",
+                            ifelse(casen_2013$rama == 12, "Administración pública y defensa",
+                            ifelse(casen_2013$rama == 13, "Enseñanza",
+                            ifelse(casen_2013$rama == 14, "Servicios sociales y de salud",
+                            ifelse(casen_2013$rama == 15, "Otras actividades de servicios comunitarios, sociales y personales",
+                            ifelse(casen_2013$rama == 16, "Hogares privados con servicio doméstico",
+                            ifelse(casen_2013$rama == 17, "Organizaciones y órganos extraterritoriales",
+                            ifelse(casen_2013$rama == 99, "No bien especificado", NA))))))))))))))))))
+
+
+
+casen_2015= CASEN2015[,c("anio", "edad", "sexo",  "expr","o10", "yoprCor","rama1", "educ")]
+
+names(casen_2015)[names(casen_2015) == "o10"] <- "jh"
+names(casen_2015)[names(casen_2015)== "yoprCor"] = "yopraj"
+names(casen_2015)[names(casen_2015)== "rama1"] = "rama"
+
+casen_2015$jh=casen_2015$jh*4.3
+
+
+
+
+
+casen_2015$rama_nombre <- ifelse(casen_2015$rama == 1, "Agricultura, ganadería, caza y silvicultura",
+                            ifelse(casen_2015$rama == 2, "Pesca",
+                            ifelse(casen_2015$rama == 3, "Explotación de minas y canteras",
+                            ifelse(casen_2015$rama == 4, "Industrias manufactureras",
+                            ifelse(casen_2015$rama == 5, "Suministro de electricidad, gas y agua",
+                            ifelse(casen_2015$rama == 6, "Construcción",
+                            ifelse(casen_2015$rama == 7, "Comercio al por mayor y al por menor",
+                            ifelse(casen_2015$rama == 8, "Hoteles y restaurantes",
+                            ifelse(casen_2015$rama == 9, "Transporte, almacenamiento y comunicaciones",
+                            ifelse(casen_2015$rama == 10, "Intermediación financiera",
+                            ifelse(casen_2015$rama == 11, "Actividades inmobiliarias, empresariales y de alquiler",
+                            ifelse(casen_2015$rama == 12, "Administración pública y defensa",
+                            ifelse(casen_2015$rama == 13, "Enseñanza",
+                            ifelse(casen_2015$rama == 14, "Servicios sociales y de salud",
+                            ifelse(casen_2015$rama == 15, "Otras actividades de servicios comunitarios, sociales y personales",
+                            ifelse(casen_2015$rama == 16, "Hogares privados con servicio doméstico",
+                            ifelse(casen_2015$rama == 17, "Organizaciones y órganos extraterritoriales",
+                            ifelse(casen_2015$rama == 99, "No bien especificado", NA))))))))))))))))))
+
+
+
+
+casen_2017= CASEN2017[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1", "educ")]
+
+names(casen_2017)[names(casen_2017) == "o10"] <- "jh"
+names(casen_2017)[names(casen_2017)== "yoprcor"] = "yopraj"
+names(casen_2017)[names(casen_2017)== "rama1"] = "rama"
+
+
+
+
+
+
+casen_2017$jh=casen_2017$jh*4.3
+
+
+casen_2017$rama_nombre <- ifelse(casen_2017$rama == 1, "Agricultura, ganadería, caza y silvicultura",
+                            ifelse(casen_2017$rama == 2, "Pesca",
+                            ifelse(casen_2017$rama == 3, "Explotación de minas y canteras",
+                            ifelse(casen_2017$rama == 4, "Industrias manufactureras",
+                            ifelse(casen_2017$rama == 5, "Suministro de electricidad, gas y agua",
+                            ifelse(casen_2017$rama == 6, "Construcción",
+                            ifelse(casen_2017$rama == 7, "Comercio al por mayor y al por menor",
+                            ifelse(casen_2017$rama == 8, "Hoteles y restaurantes",
+                            ifelse(casen_2017$rama == 9, "Transporte, almacenamiento y comunicaciones",
+                            ifelse(casen_2017$rama == 10, "Intermediación financiera",
+                            ifelse(casen_2017$rama == 11, "Actividades inmobiliarias, empresariales y de alquiler",
+                            ifelse(casen_2017$rama == 12, "Administración pública y defensa",
+                            ifelse(casen_2017$rama == 13, "Enseñanza",
+                            ifelse(casen_2017$rama == 14, "Servicios sociales y de salud",
+                            ifelse(casen_2017$rama == 15, "Otras actividades de servicios comunitarios, sociales y personales",
+                            ifelse(casen_2017$rama == 16, "Hogares privados con servicio doméstico",
+                            ifelse(casen_2017$rama == 17, "Organizaciones y órganos extraterritoriales",
+                            ifelse(casen_2017$rama == 999, "No bien especificado", NA))))))))))))))))))
+
+
+
+
+casen_2022= CASEN2022[,c("anio", "edad", "sexo",  "expr", "o10", "yoprcor","rama1", "educ")]
+
+
+
+
+
+
+
+
+
+names(casen_2022)[names(casen_2022) == "o10"] <- "jh"
+names(casen_2022)[names(casen_2022)== "yoprcor"] = "yopraj"
+names(casen_2022)[names(casen_2022)== "rama1"] = "rama"
+
+casen_2022$jh=casen_2022$jh*4.3
+
+
+casen_2022$educ=ifelse(casen_2022$educ== 10,1,ifelse(casen_2022$educ==11,1,ifelse(casen_2022$educ==12,1,0)))
+
+
+casen_2022$rama_nombre <- ifelse(casen_2022$rama == 1, "Agricultura, ganadería, caza y silvicultura",
+                            ifelse(casen_2022$rama == 2, "Pesca",
+                            ifelse(casen_2022$rama == 3, "Explotación de minas y canteras",
+                            ifelse(casen_2022$rama == 4, "Industrias manufactureras",
+                            ifelse(casen_2022$rama == 5, "Suministro de electricidad, gas y agua",
+                            ifelse(casen_2022$rama == 6, "Construcción",
+                            ifelse(casen_2022$rama == 7, "Comercio al por mayor y al por menor",
+                            ifelse(casen_2022$rama == 8, "Hoteles y restaurantes",
+                            ifelse(casen_2022$rama == 9, "Transporte, almacenamiento y comunicaciones",
+                            ifelse(casen_2022$rama == 10, "Intermediación financiera",
+                            ifelse(casen_2022$rama == 11, "Actividades inmobiliarias, empresariales y de alquiler",
+                            ifelse(casen_2022$rama == 12, "Administración pública y defensa",
+                            ifelse(casen_2022$rama == 13, "Enseñanza",
+                            ifelse(casen_2022$rama == 14, "Servicios sociales y de salud",
+                            ifelse(casen_2022$rama == 15, "Otras actividades de servicios comunitarios, sociales y personales",
+                            ifelse(casen_2022$rama == 16, "Hogares privados con servicio doméstico",
+                            ifelse(casen_2022$rama == 17, "Organizaciones y órganos extraterritoriales",
+                            ifelse(casen_2022$rama == 99, "No bien especificado", NA))))))))))))))))))
+
+
+library(labelled)
+
+
+attributes(casen_1990$rama)= NULL
+attributes(casen_1992$rama)= NULL
+attributes(casen_1994$rama)= NULL
+attributes(casen_1996$rama)= NULL
+attributes(casen_1998$rama)= NULL
+attributes(casen_2000$rama)= NULL
+attributes(casen_2003$rama)= NULL
+attributes(casen_2006$rama)= NULL
+attributes(casen_2009$rama)= NULL
+attributes(casen_2011$rama)= NULL
+attributes(casen_2013$rama)= NULL
+attributes(casen_2015$rama)= NULL
+attributes(casen_2017$rama)= NULL
+attributes(casen_2022$rama)= NULL
+
+
+
+
+
+
+
+  
+
+
+
+
+
+datos_casen <- rbind(casen_1990, casen_1992, casen_1994, casen_1996, casen_1998, casen_2000, casen_2003, casen_2006, casen_2009, casen_2011, casen_2013, casen_2015, casen_2017, casen_2022)
+
+
+
+
+
+
+
+datos_casen$grupo = ifelse(datos_casen$edad >= 25 & datos_casen$edad <= 29, "Jóvenes",
+                           ifelse(datos_casen$edad >= 35 & datos_casen$edad <= 50, "No Jóvenes", NA))
+
+library(dplyr)
+
+
+#Creamos el salario por hora
+
+datos_casen$sporhora= datos_casen$yopraj/datos_casen$jh
+
+
+
+
+#Formamos los salarios reales primero uniendo los factores del IPC.
+
+ipc_factores <- c(5.065, 3.787, 3.097, 2.685, 2.419, 2.262, 2.121, 1.948, 1.710, 1.588, 1.518, 1.386, 1.319, 1)
+
+
+anio <- c(1990,1992,1994,1996,1998,2000,2003,2006,2009,2011,2013,2015,2017, 2022)
+
+ipc= data.frame(cbind(ipc_factores, anio))
+
+
+
+datos_casen=merge(datos_casen, ipc, by="anio")
+
+datos_casen$real=datos_casen$yopraj*datos_casen$ipc_factores
+
+#Filtramos por solo trabajadores.
+datos_casen <- datos_casen %>%
+  filter(sporhora>0)
+
+
+
+
+datos_casen$realporhora= datos_casen$sporhora*datos_casen$ipc_factores
+
+datos_casen$realexp= datos_casen$realporhora*datos_casen$expr
+
+datos_casen= datos_casen[datos_casen$realexp>0 & !is.na(datos_casen$grupo),]
+
+
+# Filtrar el dataframe para valores de ponderacion > 0 y por el máximo de horas posibles al mes (774) y fulltime (al menos 172 horas mensuales)
+datos_casen <- datos_casen %>%
+  filter(jh < 744 & jh >= 172 & !is.na(jh) & yopraj>0)
+
+
+
+
+
+promediossalarios <- datos_casen[datos_casen$sexo==1,] %>%
+  group_by(anio, grupo) %>%
+  summarize(
+    promedio_real = sum(real * expr) / sum(expr),
+    promedio_hora = sum(realexp) / sum(expr)
+  )
+
+
+
+
+```
+
+
+
+```{r}
+
+
+
+###### Calculamos los promedios de los dos rangos etarios por separado.
+
+
+datos_casenj= datos_casen%>%
+  filter(datos_casen$edad>=25 & datos_casen$edad<=29)
+
+promedios_sph_j= datos_casenj%>%
+  group_by(anio)%>%
+  summarise(promedio_j= sum(realexp)/sum(expr))
+
+
+
+
+datos_casen3550= datos_casen%>%
+  filter(datos_casen$edad>=35 & datos_casen$edad<=50)
+
+promedios_sph_3550= datos_casen3550%>%
+  group_by(anio)%>%
+  summarise(promedio_noj= sum(realexp)/sum(expr))
+
+
+#Unimos los promedios en un Dataframe para poder hacer la resta.
+
+promediosgraf= merge(promedios_sph_j,promedios_sph_3550, by="anio" )
+
+
+#Creamos los log de los salarios y la resta.
+
+
+
+promediosgraf$logjov= log(promediosgraf$promedio_j)
+promediosgraf$lognojov= log(promediosgraf$promedio_noj)
+promediosgraf$resta= promediosgraf$lognojov-promediosgraf$logjov
+
+
+
+
+age_gap_sporhora=ggplot(promediosgraf, aes(x= anio, y= resta))+
+         geom_line()+
+         geom_point(size=2)+
+         labs(title= "Diferencia logarítmica del Promedio del Salario Real por Hora (Age Gap)", 
+              subtitle= "log(no jóvenes) - log(jóvenes). E[w|w>0]",
+              x= "Año", 
+              y="Age Gap")+
+         theme_minimal()
+
+
+
+ggsave("age_gap_sporhora.png", plot = age_gap_sporhora, width = 10, height = 6, dpi = 300)
+
+
+
+
+```
+
+
+
+```{r}
+
+
+###Genereamos el salario mediano por año y grupo.
+
+library(matrixStats)
+
+library(dplyr)
+medianCASEN = datos_casen %>%
+  group_by(anio, grupo) %>%
+  summarize(median_hora = weightedMedian(x = realporhora, w = expr, na.rm = TRUE),
+            median =weightedMedian(x= real, w=expr, na.rm= TRUE)) 
+
+
+
+median_hora_CASEN= ggplot(medianCASEN, aes(x= anio, y=median_hora, color=grupo, group=grupo))+
+  geom_line() +
+  geom_point(size=2)+
+  labs(title= "Evolución de la Mediana del Salario Real por Hora Jóvenes contra no Jóvenes - CASEN", subtitle ="E[w|w>0]", x= "Año", y="Mediana" )+
+  theme_minimal()
+
+
+
+#Generamos los log de los salarios
+library(tidyr)
+
+medianCASEN$logporhora= log(medianCASEN$median_hora)
+
+medianCASEN$log= log(medianCASEN$median)
+
+
+
+
+####Separamos los dataframe según Jóvenes y No jóvenes para luego poder unirlos y hacer la resta.
+
+# Filtrar las filas donde grupo sea "Jóvenes"
+jovenes_data <- medianCASEN %>%
+  filter(grupo == "Jóvenes")
+
+nojovenes_data <- medianCASEN %>%
+  filter(grupo == "No Jóvenes")
+
+
+jovenes_data= jovenes_data%>%
+  select(-2)
+
+
+nojovenes_data= nojovenes_data%>%
+  select(-2)
+
+
+
+
+####Unimos los dataframe
+medianCASEN2= merge(jovenes_data,nojovenes_data, by= "anio")
+
+
+medianCASEN2$agegap= medianCASEN2$log.y- medianCASEN2$log.x
+
+
+#Hacemos la resta
+
+medianCASEN2$agegap_hora= medianCASEN2$logporhora.y- medianCASEN2$logporhora.x
+
+
+
+
+median_agegap_hora_CASEN=ggplot(medianCASEN2, aes(x= anio, y=agegap_hora))+
+  geom_line() +
+  geom_point(size=2)+
+  labs(title= "Age Gap Salario Real por Hora Jóvenes contra no Jóvenes - CASEN", subtitle ="E[w|w>0]", x= "Año", y="Mediana" )+
+  theme_minimal()
+
+
+
+
+
+median_agegap_CASEN=ggplot(medianCASEN2, aes(x= anio, y=agegap))+
+  geom_line() +
+  geom_point(size=2)+
+  labs(title= "Evolución de la Mediana del Salario Real Jóvenes contra no Jóvenes - CASEN", subtitle ="E[w|w>0]", x= "Año", y="Mediana (en miles)" )+
+  theme_minimal()
+
+
+
+
+ggsave("median_agegap_hora_CASEN.png", plot= median_agegap_hora_CASEN, width= 10 ,height= 6, dpi=300)
+
+ggsave("median_agegap_CASEN.png", plot= median_agegap_CASEN, width= 10 ,height= 6, dpi=300)
+
+
+
+median_agegap_hora_CASEN
+
+median_agegap_CASEN
+
+```
