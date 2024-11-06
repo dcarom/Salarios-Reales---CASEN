@@ -1,7 +1,7 @@
 
 ```{r}
 
-
+###Importación de base de datos
 
 
 library(haven)
@@ -633,7 +633,7 @@ promediossalarios <- datos_casen[datos_casen$sexo==1,] %>%
 
 ```{r}
 
-
+#########  Gráfico Age Gap Medio    #############
 
 ###### Calculamos los promedios de los dos rangos etarios por separado.
 
@@ -693,6 +693,10 @@ ggsave("age_gap_sporhora.png", plot = age_gap_sporhora, width = 10, height = 6, 
 
 
 ```{r}
+
+
+#######   Gráfico Age Gap Mediano   ################
+
 
 
 ###Genereamos el salario mediano por año y grupo.
