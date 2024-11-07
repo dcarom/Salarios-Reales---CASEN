@@ -238,15 +238,11 @@ ggplot(data = var_cumulativo[var_cumulativo$Fecha<2023,],aes(x=Fecha, y=perc_cha
 # Grafico 2 otra vez
 ######################
 casen_datos <- read.csv("casen_ingresos_horas.csv")
-casen_datos$horas[casen_datos$horas==0] <- NA
 
-casen_salarios <- casen_datos[casen_datos$salario>0,-1]
+casen_salarios <- casen_datos[casen_datos$salario>0 & casen_datos$horas>=172,-1]
 casen_salarios <- casen_salarios[casen_salarios$edad_gama=="25-29" | casen_salarios$edad_gama=="35-50",]
 
-casen_salarios$wage <- casen_salarios$salario/casen_salarios$horas
-casen_salarios <- casen_salarios[!is.na(casen_salarios$wage),]
-
-########### por hora
+###########
 casen_salarios <- casen_salarios %>%
   group_by(año, edad_gama) %>%
   summarise(wage = sum(wage*expr)/sum(expr))
@@ -288,27 +284,24 @@ datos_merge <- merge(datos_jovenes_SC$Fecha, 1)[c(1:246),]
 ###########
 # mismo pero full-time
 ###########
-casen_comparacion <- casen_salarios[casen_salarios$horas>=172,] %>%
-  group_by(año, edad_gama) %>%
-  summarise(salario = sum(salario*expr)/sum(expr),
-            wage = sum(wage*expr)/sum(expr))
-colnames(casen_comparacion)[2] <- "Edad"
+casen_fulltime <- read.csv("adultos_jovenes_CASEN.csv")
+casen_fulltime$Fecha <- as.yearmon(casen_fulltime$Fecha)
 
-ggplot()+
-  geom_line(data = casen_comparacion, aes(x=año, y=wage, color=Edad))+
-  geom_point(data = casen_comparacion, aes(x=año, y=wage, color=Edad))+
-  ggtitle("Salarios por Hora (mil pesos), full time adultos y jovenes")
+datos_jovenes_SC <- read.csv("adultos_jovenes_SC_prom.csv")
+datos_jovenes_SC <- datos_jovenes_SC[,-1]
 
-ggplot()+
-  geom_line(data = casen_comparacion, aes(x=año, y=salario, color=Edad))+
-  geom_point(data = casen_comparacion, aes(x=año, y=salario, color=Edad))+
-  ggtitle("Salarios mensuales (mil pesos), full time adultos y jovenes")
+datos_jovenes_SC_25 <- datos_jovenes_SC[datos_jovenes_SC$edad_gama=="25-29",c("Fecha","trend","edad_gama")]
+colnames(datos_jovenes_SC_25) <- c("Fecha","salario","Edad")
+datos_jovenes_SC_25$fuente <- "Seguro Cesantía"
+datos_jovenes_SC_35 <- datos_jovenes_SC[datos_jovenes_SC$edad_gama=="35-50",c("Fecha","trend","edad_gama")]
+colnames(datos_jovenes_SC_35) <- c("Fecha","salario","Edad")
+datos_jovenes_SC_35$fuente <- "Seguro Cesantía"
 
-                                                                                                                       write.csv(casen_comparacion, "casen_fulltime_ingresos.csv")
+datos_jovenes_SC <- rbind(datos_jovenes_SC_25, datos_jovenes_SC_35)
+datos_jovenes_SC$Fecha <- as.yearmon(datos_jovenes_SC$Fecha)
+datos_jovenes_SC$salario <- datos_jovenes_SC$salario*.9593801 #adjusting so salaries are in Jan 2023 pesos
+colnames(datos_jovenes_SC)[4] <- "Fuente"
 
-casen_comparacion$Fecha <- paste("Dec", casen_comparacion$año)
-casen_comparacion$Fecha <- as.yearmon(casen_comparacion$Fecha)
-casen_comparacion$Fuente <- "CASEN"
 
 esi_fulltime <- read_excel("Promedio_Salario_Real.xlsx")
 colnames(esi_fulltime) <- c("año","Edad","salario")
@@ -320,7 +313,7 @@ esi_fulltime$Fuente <- "ESI"
 esi_fulltime$salario <- esi_fulltime$salario/1000
 
 salarios_fulltime_fuentes <- rbind(datos_jovenes_SC, esi_fulltime[,c(4,3,2,5)],
-                                   casen_comparacion[c(5,3,2,6)])
+                                   casen_fulltime[c(5,4,3,6)])
 
 salarios_fulltime_fuentes$salario[salarios_fulltime_fuentes$Fuente=="Seguro Cesantía"] <-
   salarios_fulltime_fuentes$salario[salarios_fulltime_fuentes$Fuente=="Seguro Cesantía"]-100
@@ -368,42 +361,31 @@ ggplot(data = casen_jovenes, aes(x=año, y=perc_change, color=quintil))+
 # doing the same but w/ full time
 #########
 casen_datos <- read.csv("casen_ingresos_horas.csv")
-casen_datos$horas[casen_datos$horas==0] <- NA
 
 casen_jovenes <- casen_datos[casen_datos$edad_gama=="25-29" & casen_datos$salario>0,-1]
 
-casen_jovenes$wage <- casen_jovenes$salario/casen_jovenes$horas
-casen_jovenes <- casen_jovenes[!is.na(casen_jovenes$wage) & casen_jovenes$horas>=160,]
+casen_jovenes <- casen_jovenes[casen_jovenes$horas>=172,]
+casen_jovenes <- casen_jovenes[!is.na(casen_jovenes$horas),]
 
 casen_jovenes <- casen_jovenes %>%
-  mutate(quintil = 1+1*(wage >= weighted.quantile(wage,expr,.2,FALSE))+
-           1*(wage >= weighted.quantile(wage,expr,.4,FALSE))+
-           1*(wage >= weighted.quantile(wage,expr,.6,FALSE))+
-           1*(wage >= weighted.quantile(wage,expr,.8,FALSE)), .by = c(año))
+  mutate(quintil = 1+1*(salario >= weighted.quantile(salario,expr,.2,FALSE))+
+           1*(salario >= weighted.quantile(salario,expr,.4,FALSE))+
+           1*(salario >= weighted.quantile(salario,expr,.6,FALSE))+
+           1*(salario >= weighted.quantile(salario,expr,.8,FALSE)), .by = c(año))
 casen_jovenes$quintil <- factor(casen_jovenes$quintil, levels = c(1:5),
                                 labels = c("i","ii","iii","iv","v"))
 
 casen_jovenes <- casen_jovenes %>%
   group_by(año, quintil) %>%
-  summarise(avg_wage = 1000*sum(wage*expr)/sum(expr))
+  summarise(salario = 1000*sum(salario*expr)/sum(expr)) %>%
+  ungroup()
 
-casen_jovenes$base <- rep(casen_jovenes$avg_wage[casen_jovenes$año==2011],14)
-casen_jovenes$perc_change <- 100*(casen_jovenes$avg_wage - casen_jovenes$base)/casen_jovenes$base
+casen_jovenes$base <- rep(casen_jovenes$salario[casen_jovenes$año==2013],14)
+casen_jovenes$perc_change <- 100*(casen_jovenes$salario - casen_jovenes$base)/casen_jovenes$base
 
 ggplot(data = casen_jovenes, aes(x=año, y=perc_change, color=quintil))+
   geom_line()+geom_point()+
   ggtitle("Salario por hora Jovenes full time por quintil")
-
-casen_jovenes_salarios <- casen_jovenes %>%
-  mutate(quintil = 1+1*(salario >= weighted.quantile(salario,expr,.2,FALSE))+
-           1*(salario >= weighted.quantile(salario,expr,.4,FALSE))+
-           1*(salario >= weighted.quantile(salario,expr,.6,FALSE))+
-           1*(salario >= weighted.quantile(salario,expr,.8,FALSE)), .by = c(año))
-casen_jovenes_salarios$quintil <- factor(casen_jovenes_salarios$quintil, levels = c(1:5),
-                                         labels = c("i","ii","iii","iv","v"))
-casen_jovenes_salarios <- casen_jovenes_salarios %>%
-  group_by(año, quintil) %>%
-  summarise(salario = 1000*sum(salario*expr)/sum(expr))
 
 
 casen_jovenes_salarios$base <- rep(casen_jovenes_salarios$salario[casen_jovenes_salarios$año==2011],14)
@@ -413,13 +395,15 @@ ggplot(data = casen_jovenes_salarios, aes(x=año, y=perc_change, color=quintil))
   geom_line()+geom_point()+
   ggtitle("Salario mensuales Jovenes full time por quintil")
 
+write.csv(casen_jovenes, file = "datos_jovenes_CASEN.csv")
+
 sc_cumulativo <- read.csv("datos_jovenes_SeguroCesantía.csv")
 esi_cumulativo <- read.csv("datos_jovenes_ESI.csv")
-casen_cumulativo <- casen_jovenes
+casen_cumulativo <- read.csv("datos_jovenes_CASEN.csv")
 
 casen_cumulativo$Fecha <- as.yearmon(paste("Dec", casen_cumulativo$año))
 casen_cumulativo$Fuente <- "CASEN"
-casen_cumulativo <- casen_cumulativo[casen_cumulativo$Fecha>=2011,]
+casen_cumulativo <- casen_cumulativo[casen_cumulativo$Fecha>=2012,]
 
 esi_cumulativo$Fecha <- as.yearmon(esi_cumulativo$Fecha)
 esi_cumulativo$Fuente <- "ESI"
