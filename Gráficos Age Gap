@@ -3,80 +3,49 @@
 
 ###Importación de base de datos
 
-
 library(haven)
 
+CASEN1990 <- read_sav("Casen1990.sav")
+CASEN1990$anio <- 1990
 
+CASEN1992 <- read_sav("Casen1992.sav")
+CASEN1992$anio <- 1992
 
+CASEN1994 <- read_sav("Casen1994.sav")
+CASEN1994$anio <- 1994
 
+CASEN1996 <- read_dta("casen1996.dta")
+CASEN1996$anio <- 1996
 
-CASEN1990= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1990/Casen1990.sav")
-CASEN1990$anio =1990
+CASEN1998 <- read_sav("Casen1998.sav")
+CASEN1998$anio <- 1998
 
+CASEN2000 <- read_dta("casen2000_Stata.dta")
+CASEN2000$anio <- 2000
 
-CASEN1992= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1992/Casen1992.sav")
-CASEN1992$anio =1992
+CASEN2003 <- read_sav("Casen2003.sav")
+CASEN2003$anio <- 2003
 
+CASEN2006 <- read_sav("Casen2006.sav")
+CASEN2006$anio <- 2006
 
-CASEN1994= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1994/Casen1994.sav")
-CASEN1994$anio =1994
+CASEN2009 <- read_sav("Casen2009Spss.sav")
+CASEN2009$anio <- 2009
 
+CASEN2011 <- read_sav("casen2011_octubre2011_enero2012_principal_08032013spss.sav")
+CASEN2011$anio <- 2011
 
-CASEN1996= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1996/casen1996.dta")
-CASEN1996$anio =1996
+CASEN2013 <- read_dta("casen_2013_mn_b_principal.dta")
+CASEN2013$anio <- 2013
 
+CASEN2015 <- read_sav("Casen 2015.sav")
+CASEN2015$anio <- 2015
 
-CASEN1998= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen1998/Casen1998.sav")
-CASEN1998$anio =1998
+CASEN2017 <- read_sav("Casen 2017.sav")
+CASEN2017$anio <- 2017
 
-
-
-CASEN2000= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2000/casen2000_Stata.dta")
-CASEN2000$anio=2000
-
-
-
-CASEN2003= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2003 (1)/Casen2003.sav")
-
-#CASEN2003= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2003 (1)/ingresos_ajustados_casen_2003_03122013.dta")
-
-#CASEN2003=cbind(CASEN2003_1, casen2003_2)
-
-CASEN2003$anio=2003
-
-
-CASEN2006= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2006 (1)/Casen2006.sav")
-CASEN2006$anio=2006
-
-
-CASEN2009= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Casen2009spss/Casen2009Spss.sav")
-CASEN2009$anio=2009
-
-
-
-############ ? ##############
-CASEN2011= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen2011_octubre2011_enero2012_principal_08032013spss/casen2011_octubre2011_enero2012_principal_08032013spss.sav")
-CASEN2011$anio=2011
-
-
-CASEN2013= read_dta("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/CASEN_2013_Ingresos_originales_spss/casen_2013_mn_b_principal.dta")
-CASEN2013$anio=2013
-
-
-CASEN2015= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen_2015_spss/Casen 2015.sav")
-CASEN2015$anio=2015
-
-
-
-CASEN2017= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/casen_2017_spss/Casen 2017.sav")
-CASEN2017$anio=2017
-
-
-
-CASEN2022= read_sav("C:/Users/BIBLIOTECA/OneDrive - Universidad de Chile/Archivos UCH/Octavo Semestre/Espacio Público/Bases CASEN/Base de datos Casen 2022 SPSS_18 marzo 2024.sav/Base de datos Casen 2022 SPSS_18 marzo 2024.sav")
-CASEN2022$anio =2022
-
-
+CASEN2022 <- read_sav("Base de datos Casen 2022 SPSS_18 marzo 2024.sav")
+CASEN2022$anio <- 2022
 
 
 
